@@ -10,7 +10,7 @@ router.get('/', function(req, res, next) {
         // docs is an array of all the documents in mycollection
         console.log(docs);
     });
-    res.render('database', { title: 'Database' });
+    res.render('database', { title: 'Wenfeng Jiang' });
 });
 
 module.exports = router;

@@ -5,7 +5,7 @@ var db = mongojs('portfolio', ['users']);
 
 /* GET register page. */
 router.get('/', function(req, res, next) {
-  res.render('register', { title: 'Register' });
+  res.render('register', { title: 'Wenfeng Jiang' });
 });
 
 router.post('/submit', function(req, res, next){
