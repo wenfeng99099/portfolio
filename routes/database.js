@@ -5,12 +5,13 @@ var db = mongojs('portfolio', ['users']);
 
 /* GET database page. */
 router.get('/', function(req, res, next) {
+    console.log("in Database");
     // find every user in db
     db.users.find(function (err, docs) {
         // docs is an array of all the documents in mycollection
         console.log(docs);
     });
-    res.render('database', { title: 'Wenfeng Jiang' });
+    res.render('database');
 });
 
 module.exports = router;

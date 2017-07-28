@@ -3,17 +3,27 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('auth', { title: 'Wenfeng Jiang' });
+    res.render('auth');
 });
 
-router.post("/login", function(req, res, next){
+router.post("/", function(req, res, next){
     console.log("Form submitted for auth");
     var user = {
         username: req.body.logUserName,
         password: req.body.logPassword
     }
-    console.log(user.username);
-    console.log(user.password);
-    res.json(user);
+    req.checkBody('logUserName', 'UserName not filled').notEmpty();
+    req.checkBody('logPassword', 'Password not filled').notEmpty();
+
+    req.getValidationResult().then(function(result){
+        if(!result.isEmpty()){
+            console.log("Validation Error for login");
+            res.render('auth', {
+                errors: result.array()
+            });
+        }else{
+            res.redirect('/');
+        }
+    });
 });
 module.exports = router;

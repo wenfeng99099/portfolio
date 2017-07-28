@@ -4,8 +4,14 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var expressValidator = require('express-validator');
+var expSession = require('express-session');
 
+//use passport js for local authentication
+var passport = require('passport');
+var passLocal = require('passport-local');
 
+//routers
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var register = require('./routes/register');
@@ -25,7 +31,33 @@ app.set('view engine', 'ejs');
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use(expressValidator({
+    errorFormatter: function(param, msg, value) {
+        var namespace = param.split('.')
+            , root    = namespace.shift()
+            , formParam = root;
+
+        while(namespace.length) {
+            formParam += '[' + namespace.shift() + ']';
+        }
+        return {
+            param : formParam,
+            msg   : msg,
+            value : value
+        };
+    }
+}));
+
 app.use(cookieParser());
+app.use(expSession({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, 'public')));
 //get jquery
 app.use('/jquery', express.static(path.join(__dirname, '/node_modules/jquery/dist/')));
