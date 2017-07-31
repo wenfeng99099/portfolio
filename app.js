@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 var expSession = require('express-session');
+var bcrypt = require('bcrypt');
 
 //use passport js for local authentication
 var passport = require('passport');

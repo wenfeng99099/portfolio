@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
 var db = mongojs('portfolio', ['users']);
+var bcrypt = require('bcrypt');
+var salt = bcrypt.genSaltSync(10);
 
 /* GET register page. */
 router.get('/', function(req, res, next) {
@@ -10,12 +12,7 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next){
 	console.log("FORM SUBMITTED!")
-	var newUser = {
-		name: req.body.regName,
-        username: req.body.regUserName,
-		password: req.body.regPassword,
-		email: req.body.regEmail
-	};
+
     //form validations
 	req.checkBody('regName', 'Name not filled').notEmpty();
     req.checkBody('regUserName', 'UserName not filled').notEmpty();
@@ -30,18 +27,24 @@ router.post('/', function(req, res, next){
 				errors: result.array()
             });
 		}else{
-            res.redirect('auth');
-		}
+			//hash password
+			var hashPass = bcrypt.hashSync(req.body.regPassword, salt);
+			// Create new user info
+            var newUser = {
+                name: req.body.regName,
+                username: req.body.regUserName,
+                password: hashPass,
+                email: req.body.regEmail
+            };
+            db.users.insert(newUser, function(err, result){
+                console.log(newUser);
+                if (err){
+                    console.log('error with registering new user');
+                }
+                res.redirect('auth');
+            });
+		};
 	});
-
-
-
-    /*db.users.insert(newUser, function(err, result){
-    	if (err){
-    		console.log('error with registering new user');
-		}
-		res.redirect('/auth');
-	});*/
 });
 
 module.exports = router;
