@@ -2,9 +2,15 @@
 
 <h2>
     <div class = "container">
-        <div class = "jumbotron">
-            This is Database page, used to write posts
-        </div>
+        <% if(typeof user !== 'undefined' && user){ %>
+            <div class = "jumbotron">
+                Start Posting !!!!
+            </div>
+        <% }else{%>
+            <div class = "jumbotron">
+                This is Database page, <a href = "/auth" >Log in</a> or <a href = "/register" >Register</a> to write posts
+            </div>
+        <% } %>
     </div>
 </h2>
 

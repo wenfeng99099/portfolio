@@ -11,7 +11,7 @@ var bcrypt = require('bcrypt');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('auth');
+    res.render('auth', {user: req.user});
 });
 
 passport.use(new LocalStrategy(

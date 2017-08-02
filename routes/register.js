@@ -7,7 +7,7 @@ var salt = bcrypt.genSaltSync(10);
 
 /* GET register page. */
 router.get('/', function(req, res, next) {
-  res.render('register');
+  res.render('register', {user: req.user});
 });
 
 router.post('/', function(req, res, next){
