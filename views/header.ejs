@@ -40,6 +40,9 @@
 								<li><a href="auth">Authentication</a></li>
 								<li><a href="database">Database</a></li>
 								<li><a href="#">API</a></li>
+								<% if(typeof user !== 'undefined' && user){ %>
+								<li><a href="logout">Logout</a></li>
+								<% } %>
 							</ul>
 						</div>
 					</div>

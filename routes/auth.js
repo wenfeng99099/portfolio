@@ -2,6 +2,8 @@ var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
 var db = mongojs('portfolio', ['users']);
+var ObjectId = mongojs.ObjectId;
+
 //use passport js for local authentication
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -26,9 +28,8 @@ passport.use(new LocalStrategy(
                 console.log("wrong password");
                 return done(null, false, { message: 'Incorrect password.' });
             }
-            console.log("success");
+            console.log("--------successfully found user--------");
             console.log(user);
-            console.log(user._id);
             return done(null, user);
         });
     }
@@ -39,35 +40,14 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    db.users.findOne({_id: id}, function(err, user) {
+    db.users.findOne({_id: ObjectId(id)}, function(err, user) {
         done(err, user);
     });
 });
 
 router.post("/",
-    passport.authenticate('local', {successRedirect:'/', failureRedirect:'/register'}),
+    passport.authenticate('local', {successRedirect:'/database', failureRedirect:'/auth'}),
     function(req, res, next){
-    //console.log("Form submitted for auth");
-    //res.redirect('/');
-    /*var user = {
-        username: req.body.logUserName,
-        password: req.body.logPassword
-    }
-
-    // form validation for user login
-    req.checkBody('logUserName', 'UserName not filled').notEmpty();
-    req.checkBody('logPassword', 'Password not filled').notEmpty();
-
-    req.getValidationResult().then(function(result){
-        if(!result.isEmpty()){
-            console.log("Validation Error for login");
-            res.render('auth', {
-                errors: result.array()
-            });
-        }else{
-            // authenticate user
-                res.redirect('/');
-        }
-    }); */
+        res.redirect('/');
 });
 module.exports = router;

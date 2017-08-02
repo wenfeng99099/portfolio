@@ -4,14 +4,16 @@ var mongojs = require('mongojs');
 var db = mongojs('portfolio', ['users']);
 
 /* GET database page. */
-router.get('/', function(req, res, next) {
-    console.log("in Database");
-    // find every user in db
-    db.users.find(function (err, docs) {
-        // docs is an array of all the documents in mycollection
-        console.log(docs);
-    });
-    res.render('database');
+router.get('/', ensureAuthenticated, function(req, res, next) {
+
 });
+
+function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated())
+        res.render('database',{user: req.user});
+    else{
+        res.redirect('/auth')
+    }
+}
 
 module.exports = router;

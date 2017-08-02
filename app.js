@@ -8,6 +8,7 @@ var expressValidator = require('express-validator');
 var expSession = require('express-session');
 var bcrypt = require('bcrypt');
 
+
 //use passport js for local authentication
 var passport = require('passport');
 var passLocal = require('passport-local');
@@ -18,6 +19,8 @@ var users = require('./routes/users');
 var register = require('./routes/register');
 var database = require('./routes/database');
 var auth = require('./routes/auth');
+var logout = require('./routes/logout');
+
 
 var app = express();
 
@@ -65,12 +68,18 @@ app.use('/jquery', express.static(path.join(__dirname, '/node_modules/jquery/dis
 //access javascript in public
 app.use('/js', express.static(path.join(__dirname, '/public/javascripts/')));
 
+//Global Vars
+app.use(function (req, res, next) {
+    res.locals.user = req.user || null;
+    next();
+});
 
 app.use('/', routes);
 app.use('/users', users);
 app.use('/register', register);
 app.use('/database', database);
 app.use('/auth', auth);
+app.use('/logout', logout);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
