@@ -47,6 +47,13 @@
 						</div>
 					</div>
 				</nav>
+                <% if(typeof errors !== 'undefined'){ %>
+                <% errors.forEach(function(e){ %>
+				<div class = "alert alert-danger">
+                    <%= e.msg %>
+				</div>
+                <% }) %>
+                <% } %>
 			</div>
 		</h3>
 

@@ -3,13 +3,6 @@
 
 	<h2>
 		<div class = "container">
-                <% if(typeof errors !== 'undefined'){ %>
-					<% errors.forEach(function(e){ %>
-						<div class = "alert alert-danger">
-							<%= e.msg %>
-						</div>
-					<% }) %>
-                <% } %>
 			<div class = "jumbotron">
 				<form method="POST" action="/register">
 					<div class="form-group">

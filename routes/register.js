@@ -34,7 +34,8 @@ router.post('/', function(req, res, next){
                 name: req.body.regName,
                 username: req.body.regUserName,
                 password: hashPass,
-                email: req.body.regEmail
+                email: req.body.regEmail,
+                posts: {}
             };
             db.users.insert(newUser, function(err, result){
                 console.log(newUser);

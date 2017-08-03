@@ -3,9 +3,20 @@
 <h2>
     <div class = "container">
         <% if(typeof user !== 'undefined' && user){ %>
-            <div class = "jumbotron">
-                Start Posting !!!!
-            </div>
+            <form method = "POST" action = "/database">
+                <div class="form-group">
+                    <label for = "newpost">New Post</label>
+                    <textarea class="form-control" row = "4" name = "newpost"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">POST!</button>
+            </form>
+            <br>
+            <% user.posts.forEach(function(p){ %>
+                <div class = "jumbotron">
+                    <%= p %>
+                </div>
+            <% }) %>
+
         <% }else{%>
             <div class = "jumbotron">
                 This is Database page, <a href = "/auth" >Log in</a> or <a href = "/register" >Register</a> to write posts
