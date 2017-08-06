@@ -20,6 +20,7 @@ var register = require('./routes/register');
 var database = require('./routes/database');
 var auth = require('./routes/auth');
 var logout = require('./routes/logout');
+var chat = require('./routes/chat');
 
 
 var app = express();
@@ -80,6 +81,7 @@ app.use('/register', register);
 app.use('/database', database);
 app.use('/auth', auth);
 app.use('/logout', logout);
+app.use('/chat', chat);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
